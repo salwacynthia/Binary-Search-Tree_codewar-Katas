@@ -1,0 +1,178 @@
+ class Node {
+   constructor (value){
+    this.value = value
+    this.left = null
+    this.right = null 
+  }
+}
+
+class BST {
+  constructor(value){
+    this.root = new Node(value)
+    this.count = 1
+  }
+
+
+//size of the tree
+size (){
+  return this.count;
+}
+//insert a value into a tree
+insert (value){
+  this.count++
+  //create new node
+  let newNode = new Node(value)
+  //a recursinve search function to check at which poition it should go
+
+  const searchTree = node =>{
+    //if value < node.value it goes to left
+    if(value < node.value){
+    //if there is no left child 
+    if(!node.left){
+      node.left = newNode
+      }
+    //if there is left child check where to add value
+    else{
+      searchTree(node.left)
+     }
+  }
+
+    //if value > node.value it goes to right
+    if(value > node.value){
+      //if there is no right child 
+    if(!node.right){
+      node.right = newNode
+      }
+    //if there is right child check where to add value
+    else{
+      searchTree(node.right)
+     }
+    }
+  }
+  searchTree(this.root)
+}
+//min value of the node
+min(){
+  //go left and left and find the last node
+  let currentNode = this.root
+  while(currentNode.left){
+    currentNode = currentNode.left
+  }
+  return currentNode.value
+}
+//max value of the node 
+max(){
+  //go right and right and find the last node
+  let currentNode = this.root
+  while(currentNode.right){
+    currentNode = currentNode.right
+  }
+  return currentNode.value
+}
+
+//check if a given value exists in the tree
+contains (value){
+  let currentNode = this.root 
+  while(currentNode){
+    if(value === currentNode.value){
+     return true 
+    } 
+    if (value < currentNode.value){
+      currentNode = currentNode.left
+    }else {
+      currentNode = currentNode.right
+    }
+  }
+//if after traversing the tree we dont find the value, return false
+return false
+}
+// Depth first search - looking branch by branch 
+// searching elements in Node
+//in order searchin
+//example tree :    18
+//                 /  \
+//                6    26
+//               / \   / \
+//              2  10 24 30
+// inOrder : left root right : 2 6 10 18 24 26 30 
+inOrder(){
+  let result = []
+  const traverse = node =>{
+    if(node.left) traverse(node.left)
+      result.push(node.value)
+    if(node.right) traverse(node.right)
+  }
+  traverse(this.root)
+  return result;  
+}
+
+//pre order searchin
+// preOrder: root left right :  18 6 2 10 26 24 30
+preOrder(){
+   let result = []
+  const traverse = node =>{
+    result.push(node.value) //pushing the root
+    if(node.right) traverse(node.right)
+    if(node.left) traverse(node.left)
+     
+  }
+  traverse(this.root)
+  return result;  
+}
+
+//post order searchin
+//postOrder : left right root: 2 10 6 24 30 26 18
+
+postOrder(){
+   let result = []
+  const traverse = node =>{
+    if(node.left) traverse(node.left)
+    if(node.right) traverse(node.right)
+      result.push(node.value)
+  }
+  traverse(this.root)
+  return result;  
+}
+
+// breadth first search - looking level by level
+// from the example:  18 6 26 2 10 24 30
+bfs(){
+let result = []
+let queue = [] 
+
+queue.push(this.root)
+//will check if a node has a left child, push it to the array and if it has a right child push it to the array 
+while(queue.length){
+  let currentNode = queue.shift() //adding at the beginning of the array
+  result.push(currentNode.value)
+  if(currentNode.left){
+    queue.push(currentNode.left)
+  }
+  
+  if(currentNode.right){
+    queue.push(currentNode.right)
+  }
+}
+return result
+}
+
+}
+
+
+const bst = new BST(18)
+bst.insert(6)
+bst.insert(26)
+bst.insert(2)
+bst.insert(10)
+bst.insert(24)
+bst.insert(30)
+console.log(bst.min())
+console.log(bst.max())
+console.log(bst.contains(2))
+console.log(bst.contains(29))
+console.log(bst.inOrder())
+console.log(bst.preOrder())
+console.log(bst.postOrder())
+console.log(bst.bfs())
+
+
