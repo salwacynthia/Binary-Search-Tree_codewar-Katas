@@ -1,6 +1,5 @@
 // return the sum of all values in the tree, including the root
 
-
 function sumTheTreeValues(root){
   // your code here
   let sum = 0;
@@ -12,7 +11,12 @@ function sumTheTreeValues(root){
    if (root.right){
   sum += sumTheTreeValues(root.right)
   }
-  
   return sum;
-  
+}
+
+
+/// another Solution
+function sumTheTreeValues(root) {
+  if(!root) return 0;
+  return root.value + sumTheTreeValues(root.left) + sumTheTreeValues(root.right);
 }
